@@ -1,0 +1,41 @@
+--create a store database
+
+CREATE TABLE inventory (id INTEGER PRIMARY KEY, name TEXT, brand TEXT, size TEXT, price INTEGER);
+
+INSERT INTO inventory VALUES
+(1, 'sticks', 'bauer', 'jr', 50),
+(2, 'sticks', 'bauer', 'sr', 75),
+(3, 'sticks', 'ccm', 'jr', 55),
+(4, 'sticks', 'ccm', 'sr', 80),
+(5, 'gloves', 'warrior', 'jr', 90),
+(6, 'gloves', 'warrior', 'sr', 100),
+(7, 'helmets', 'ccm', 'sr', 150),
+(8, 'helmets', 'ccm', 'jr', 125),
+(9, 'helmets', 'bauer', 'sr', 155),
+(10,'helmets', 'bauer', 'jr', 130),
+(11, 'gloves', 'bauer', 'sr', 115),
+(12, 'gloves', 'bauer', 'jr', 95),
+(13, 'shin_guards', 'ccm', 'sr', 55),
+(14, 'shin_guards', 'ccm', 'jr', 35),
+(15, 'visors', 'itech', 'one_size', 60)
+;
+
+--display all size jr in ascending order by price
+SELECT *
+FROM inventory
+WHERE size = 'jr'
+ORDER BY price ASC
+;
+
+--display all size sr in ascending order by price
+SELECT *
+FROM inventory
+WHERE size = 'sr'
+ORDER BY price ASC
+;
+
+--display average price of sticks
+SELECT avg(price)
+FROM inventory
+WHERE name = 'sticks'
+;
