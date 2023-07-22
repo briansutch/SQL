@@ -1,0 +1,46 @@
+CREATE TABLE mets_players (uniform_number INTEGER PRIMARY KEY, name TEXT, age INTEGER);
+
+INSERT INTO mets_players VALUES (32, "Daniel Vogelbach", 30);
+INSERT INTO mets_players VALUES (4, "Francisco Alvarez", 21);
+INSERT INTO mets_players VALUES (20, "Pete Alonso", 28);
+INSERT INTO mets_players VALUES (1, "Jeff McNeil", 31);
+INSERT INTO mets_players VALUES (22, "Brett Baty", 23);
+INSERT INTO mets_players VALUES (12, "Francisco Lindor", 29);
+INSERT INTO mets_players VALUES (19, "Mark Canha", 34);
+INSERT INTO mets_players VALUES (9, "Brandon Nimmo", 30);
+INSERT INTO mets_players VALUES (6, "Starling Marte", 34);
+
+CREATE TABLE mets_handedness (uniform_number INTEGER PRIMARY KEY, bats TEXT, throws TEXT);
+
+INSERT INTO mets_handedness VALUES (32, "L", "R");
+INSERT INTO mets_handedness VALUES (4, "R", "R");
+INSERT INTO mets_handedness VALUES (20, "R", "R");
+INSERT INTO mets_handedness VALUES (1, "L", "R");
+INSERT INTO mets_handedness VALUES (22, "L", "R");
+INSERT INTO mets_handedness VALUES (12, "S", "R");
+INSERT INTO mets_handedness VALUES (19, "R", "R");
+INSERT INTO mets_handedness VALUES (9, "L", "R");
+INSERT INTO mets_handedness VALUES (6, "R", "R");
+
+CREATE TABLE mets_positions (uniform_number INTEGER PRIMARY KEY, position TEXT);
+
+INSERT INTO mets_positions VALUES (20, "1B");
+INSERT INTO mets_positions VALUES (22, "3B");
+INSERT INTO mets_positions VALUES (12, "SS");
+INSERT INTO mets_positions VALUES (1, "2B");
+INSERT INTO mets_positions VALUES (32, "DH");
+INSERT INTO mets_positions VALUES (6, "RF");
+INSERT INTO mets_positions VALUES (4, "C");
+INSERT INTO mets_positions VALUES (9, "CF");
+INSERT INTO mets_positions VALUES (19, "LF");
+
+SELECT name, age, position
+FROM mets_players
+JOIN mets_positions
+ON mets_players.uniform_number = mets_positions.uniform_number
+ORDER BY age DESC;
+
+SELECT name, bats, throws
+FROM mets_players
+JOIN mets_handedness
+ON mets_players.uniform_number = mets_handedness.uniform_number;
