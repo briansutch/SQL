@@ -1,3 +1,7 @@
+# Break Into Tech Lesson 1.8 Customer & Order Analytics Project
+
+-- In this SQL, I'm querying a database with multiple tables in it to quantify statistics about customer and order data. I did not get everything right.
+
 -- 1. How many orders were placed in January?
 SELECT COUNT (DISTINCT(orderID))
 FROM BIT_DB.JanSales
