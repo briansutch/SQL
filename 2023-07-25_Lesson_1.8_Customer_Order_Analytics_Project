@@ -64,4 +64,8 @@ WHERE FebSales.Quantity > 2
 AND length(orderid) = 6 
 AND orderid <> 'Order ID';
 
---- This solution keeps returning an error message: [21:57:21] Error while executing SQL query on database 'BIT_DB': no such table: BIT_DB.FebSales
+-- List all the products sold in Los Angeles in February, and include how many of each were sold.
+SELECT Product, SUM(quantity)
+FROM BIT_DB.FebSales
+Where location like '%Los Angeles%'
+GROUP BY Product;
