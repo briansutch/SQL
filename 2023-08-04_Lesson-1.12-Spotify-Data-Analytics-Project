@@ -1,0 +1,81 @@
+--   1.12 Spotify Data Analytics Project
+
+-- Show full table
+SELECT *
+FROM BIT_DB.Spotifydata;
+
+-- What is the average loudness of all songs?
+SELECT avg(loudness)
+FROM BIT_DB.Spotifydata;
+
+-- Which songs have above-average loudness?
+SELECT id, artist_name, track_name, loudness
+FROM BIT_DB.Spotifydata
+WHERE loudness > (SELECT avg(loudness)
+FROM BIT_DB.Spotifydata);
+
+-- What is the most popular track?
+SELECT id, artist_name, track_name, max(popularity)
+FROM BIT_DB.Spotifydata
+LIMIT 1;
+
+-- What is the least popular track?
+SELECT id, artist_name, track_name, min(popularity)
+FROM BIT_DB.Spotifydata
+LIMIT 1;
+
+-- How many distinct artists are represented?
+SELECT count(distinct artist_name)
+FROM BIT_DB.Spotifydata;
+
+-- Which artists appear most frequently on the list?
+SELECT artist_name, count(track_name)
+FROM BIT_DB.Spotifydata
+GROUP BY artist_name
+ORDER BY count(track_name) DESC;
+
+-- Which artists have the highest average danceability?
+SELECT artist_name, avg(danceability)
+FROM BIT_DB.Spotifydata
+GROUP BY artist_name
+ORDER BY avg(danceability) DESC;
+
+-- What is the most common time signature?
+SELECT time_signature, count(time_signature)
+FROM BIT_DB.Spotifydata
+GROUP BY time_signature
+ORDER BY count(time_signature) DESC;
+
+-- Only two tracks use a time signature of 3/4. Which are they?
+SELECT artist_name, track_name, time_signature
+FROM BIT_DB.Spotifydata
+WHERE time_signature = 3;
+
+-- Which tracks have the highest combined popularity and danceability (aka Jam Score)?
+SELECT artist_name, track_name, popularity, danceability, (popularity * danceability / 2) AS jam_score
+FROM BIT_DB.Spotifydata
+ORDER BY jam_score DESC
+LIMIT 5;
+
+-- Which artists have the highest average Jam Score?
+SELECT artist_name, AVG(popularity * danceability / 2) AS avg_jam_score
+FROM BIT_DB.Spotifydata
+GROUP BY artist_name
+ORDER BY avg_jam_score DESC
+LIMIT 5;
+
+-- How many different song keys are used?
+SELECT count(distinct song_key)
+FROM BIT_DB.Spotifydata;
+
+-- Which song key is used most frequently?
+SELECT song_key, count(song_key)
+FROM BIT_DB.Spotifydata
+GROUP BY song_key
+ORDER BY count(song_key) DESC;
+
+-- Which song key produces the most popular tracks?
+SELECT song_key, count(song_key), avg(popularity)
+FROM BIT_DB.Spotifydata
+GROUP BY song_key
+ORDER BY avg(popularity) DESC;
