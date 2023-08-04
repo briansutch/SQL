@@ -1,0 +1,135 @@
+--   1.17 Final SQL Project
+
+-- 1. Show Customers (their full names, customer ID, and country) who are not in the US. (Hint: != or <> can be used to say "is not equal to").
+
+SELECT *
+FROM chinook.customers
+WHERE Country <> 'USA';
+
+-- 2. Show only the Customers from Brazil.
+
+SELECT *
+FROM chinook.customers
+WHERE Country = 'Brazil';
+
+-- 3. Find the Invoices of customers who are from Brazil. The resulting table should show the customer's full name, Invoice ID, Date of the invoice, and billing country.
+
+SELECT FirstName, LastName, InvoiceID, InvoiceDate, BillingCountry
+FROM chinook.customers
+JOIN chinook.invoices
+ON customers.CustomerID = invoices.CustomerID
+WHERE customers.country = 'Brazil';
+
+-- 4. Show the Employees who are Sales Agents.
+
+SELECT *
+FROM chinook.employees
+WHERE title LIKE '%agent%';
+
+-- 5. Find a unique/distinct list of billing countries from the Invoice table.
+
+SELECT distinct BillingCountry
+FROM chinook.invoices
+ORDER BY BillingCountry ASC;
+
+-- 6. Provide a query that shows the invoices associated with each sales agent. The resulting table should include the Sales Agent's full name.
+
+SELECT invoices.InvoiceID, employees.EmployeeID, employees.FirstName, employees.LastName
+FROM chinook.customers
+JOIN chinook.employees
+ON customers.SupportRepID = employees.EmployeeID
+JOIN chinook.invoices
+ON invoices.CustomerID = customers.CustomerID
+ORDER BY InvoiceID ASC;
+
+-- 7. Show the Invoice Total, Customer name, Country, and Sales Agent name for all invoices and customers.
+
+SELECT invoices.invoiceid, invoices.total, customers.firstname AS customer_first_name, customers.lastname AS customer_last_name, customers.country, employees.firstname AS agent_first_name, employees.lastname AS agent_last_name
+FROM chinook.invoices
+JOIN chinook.customers
+ON invoices.customerid = customers.customerid
+JOIN chinook.employees
+ON customers.supportrepid = employees.employeeid;
+
+-- 8. How many Invoices were there in 2009?
+
+SELECT COUNT(invoiceid)
+FROM chinook.invoices
+WHERE invoicedate LIKE '%2009%';
+
+-- 9. What are the total sales for 2009?
+
+SELECT SUM(total)
+FROM chinook.invoices
+WHERE invoicedate LIKE '%2009%'; 
+
+-- 10. Write a query that includes the purchased track name with each invoice line ID.
+
+SELECT invoice_items.invoicelineid, tracks.trackid, tracks.name
+FROM chinook.tracks
+JOIN chinook.invoice_items
+ON tracks.trackid = invoice_items.trackID
+ORDER BY invoicelineid ASC;
+
+-- 11. Write a query that includes the purchased track name AND artist name with each invoice line ID.
+
+SELECT invoice_items.invoicelineid, tracks.trackid, tracks.name, artists.name
+FROM chinook.tracks
+
+JOIN chinook.invoice_items
+ON tracks.trackid = invoice_items.trackID
+
+JOIN chinook.albums
+ON tracks.albumid = albums.albumid
+
+JOIN chinook.artists
+ON albums.artistid = artists.artistid
+
+ORDER BY invoicelineid ASC;
+
+-- 12. Provide a query that shows all the Tracks, and include the Album name, Media type, and Genre.
+
+SELECT tracks.trackid TrackID, tracks.name TrackName, albums.title Album, media_types.name MediaType, genres.name Genre
+FROM chinook.tracks
+
+JOIN chinook.albums
+ON tracks.albumid = albums.albumid
+
+JOIN chinook.media_types
+ON tracks.mediatypeid = media_types.mediatypeid
+
+JOIN chinook.genres
+ON tracks.genreid = genres.genreid
+
+ORDER BY trackid ASC;
+
+-- 13. Show the total sales made by each sales agent.
+
+SELECT employees.EmployeeID, employees.firstname AS SalesRepFirst, employees.lastname AS SalesRepLast, count(invoices.total) AS TotalSales
+FROM chinook.customers
+
+JOIN chinook.invoices
+ON customers.customerid = invoices.customerid
+
+JOIN chinook.employees
+ON customers.supportrepid = employees.employeeid
+
+GROUP BY employeeid
+ORDER BY TotalSales DESC;
+
+-- 14. Which sales agent made the most dollars in sales in 2009?
+
+SELECT employees.EmployeeID, employees.firstname AS SalesRepFirst, employees.lastname AS SalesRepLast, sum(invoices.total) AS TotalSalesDollars
+FROM chinook.customers
+
+JOIN chinook.invoices
+ON customers.customerid = invoices.customerid
+
+JOIN chinook.employees
+ON customers.supportrepid = employees.employeeid
+
+WHERE invoicedate LIKE '%2009%'
+
+GROUP BY employeeid
+ORDER BY TotalSalesDollars DESC;
+
